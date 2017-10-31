@@ -1,10 +1,8 @@
 # GravatarShortcode-Typecho-Plugin  
 一个用于在文章或独立页面内显示Gravatar头像的短代码插件. 
-***
-# 安装  
-下载`GravatarShortcode`文件夹到`/usr/plugins/`目录下  
+# 安装   
+下载`GravatarShortcode`文件夹到`/usr/plugins/`目录下  
 登陆到后台启用插件，插件设置页可以设置头像的默认尺寸大小  
-***  
 # 使用方法  
 * #### 参数列表
 ```sh
@@ -17,4 +15,3 @@ round  //设置是否将图片显示为圆形，true为是，不设置或其他�
 2.`[gravatar size="200" round="true"]`
 3.`[gravatar email="example@example.com"]`  
 4.`[gravatar email="example@example.com" size="80" round="true"]`  
-***
