@@ -22,7 +22,7 @@ class GravatarShortcode_Plugin implements Typecho_Plugin_Interface
         Typecho_Plugin::factory('Widget_Abstract_Contents')->filter = array('GravatarShortcode_Plugin','gravatarFilter');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('GravatarShortcode_Plugin','gravatarParse');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('GravatarShortcode_Plugin','gravatarParse');
-        return '启动成功！可以到后台';
+        return '启动成功！可以到后台设置默认尺寸';
     }
     
     /**
