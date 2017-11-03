@@ -5,8 +5,8 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  * 
  * @package GravatarShortcode
  * @author Siphils
- * @version 1.0.0
- * @link https://github.com/Siphils/GravatarShortcode-Typecho-Plugin
+ * @version 1.0.3
+ * @link https://siphils.com
  */
 class GravatarShortcode_Plugin implements Typecho_Plugin_Interface
 {
@@ -22,7 +22,7 @@ class GravatarShortcode_Plugin implements Typecho_Plugin_Interface
         Typecho_Plugin::factory('Widget_Abstract_Contents')->filter = array('GravatarShortcode_Plugin','gravatarFilter');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('GravatarShortcode_Plugin','gravatarParse');
         Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('GravatarShortcode_Plugin','gravatarParse');
-        return '启动成功！可以到后台设置默认尺寸';
+        return '启动成功！';
     }
     
     /**
@@ -119,10 +119,16 @@ class GravatarShortcode_Plugin implements Typecho_Plugin_Interface
         if ( $matches[1] == '[' && $matches[6] == ']' ) {
             return substr($matches[0], 1, -1);
         }
+        
         $attr = htmlspecialchars_decode($matches[3]);
         $atts = self::shortcode_parse_atts($attr);
         //从配置中获取默认尺寸参数
         $defaultSize = Typecho_Widget::widget('Widget_Options')->plugin('GravatarShortcode')->defaultSize;
+        //如果onlyUrl=true则仅返回一个带尺寸的gravatar的图片链接
+        if( isset($atts['onlyurl']) && $atts['onlyurl'] == 'true' && isset($atts['email'])) {
+            $imgUrl = isset($atts['size']) ? self::get_gravatar($atts['email'], $atts['size']) : self::get_gravatar($atts['email'], $defaultSize);
+            return $imgUrl;
+        }
         //图片是否显示为圆形
         $borderRadius = (isset($atts['round'])&&($atts['round']=='true')) ? '50%' : '0';        
         if (isset($atts['email'])){
@@ -151,11 +157,11 @@ class GravatarShortcode_Plugin implements Typecho_Plugin_Interface
      * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
      * @param boole $img True to return a complete IMG tag False for just the URL
      * @param array $atts Optional, additional key/value attributes to include in the IMG tag
-     * @return String containing either just a URL or a complete image tag
-     * @source https://gravatar.com/site/implement/images/php/
-     */
+     * * @return String containing either just a URL or a complete image tag
+     * * @source https://gravatar.com/site/implement/images/php/
+     * */
     private static function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
-        $url = 'https://www.gravatar.com/avatar/';
+        $url = 'https://cn.gravatar.com/avatar/';
         $url .= md5( strtolower( trim( $email ) ) );
         $url .= "?s=$s&d=$d&r=$r";
         if ( $img ) {
@@ -167,7 +173,7 @@ class GravatarShortcode_Plugin implements Typecho_Plugin_Interface
         return $url;
     }
 
-    /**
+        /**
      * Retrieve all attributes from the shortcodes tag.
      *
      * The attributes list has the attribute name as the key and the value of the
